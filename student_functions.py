@@ -1,5 +1,5 @@
 import numpy as np
-
+from collections import deque
 
 def BFS(matrix, start, end):
     """
@@ -22,11 +22,46 @@ def BFS(matrix, start, end):
         Founded path
     """
     # TODO: 
-   
-    path=[]
-    visited={}
-
+    # Convert the matrix to a numpy array
+    matrix = np.array(matrix)
+    
+    # Number of nodes in the graph
+    num_nodes = len(matrix)
+    
+    # Initialize the visited dictionary and path list
+    visited = {}
+    path = []
+    
+    # Create a queue for BFS
+    queue = deque([start])
+    
+    # Mark the start node as visited
+    visited[start] = None
+    
+    # BFS algorithm
+    while queue:
+        current_node = queue.popleft()
+        
+        # Check if the current node is the end node
+        if current_node == end:
+            # Reconstruct the path from end to start
+            while current_node is not None:
+                path.insert(0, current_node)
+                current_node = visited[current_node]
+            break
+        
+        # Explore neighbors of the current node
+        neighbors = np.nonzero(matrix[current_node])[0]
+        for neighbor in neighbors:
+            if neighbor not in visited:
+                visited[neighbor] = current_node
+                queue.append(neighbor)
+    
     return visited, path
+    # path=[]
+    # visited={}
+
+    # return visited, path
 
 def DFS(matrix, start, end):
     """
@@ -160,4 +195,3 @@ def Astar(matrix, start, end, pos):
     path=[]
     visited={}
     return visited, path
-
