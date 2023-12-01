@@ -1,7 +1,8 @@
 from Graphs import initialize, generateFigure, getRawData, readMatrix, np
 from Colors import *
-from student_functions import DFS, BFS, UCS, GBFS, Astar
+from student_functions import DFS, BFS, UCS, IDS, GBFS, Astar
 import pygame
+from pathlib import Path
 import matplotlib.pyplot as plt
 from pygame.locals import *
 pygame.init()
@@ -87,6 +88,17 @@ def run(input, algorithm, delay):
     
     t=1
 
+    # Print and store the results
+    print(f"visited:{visited}, path:{path}")
+    _output = f"{Path.cwd()}/output_{algorithm}.txt"
+    try:
+        with open(_output, 'w') as file:
+            file.write(f"visited:{visited}, path:{path}")
+        print(f'Successfully wrote content to {_output}')
+    except Exception as e:
+        print(f'Error: {e}')
+
+
     searchAnimation(matrix, visited, G, pos, color_map, algorithm, t)
     paintPath(path, G, pos, color_map)
     
@@ -94,7 +106,5 @@ def run(input, algorithm, delay):
     while True:
         quit_event()
     
-
-
-    
-
+# input  = "/home/hkhnhan/KHMT/HK4/AI_alg_advanced/AI_Algo_Lab1_search/input.txt"
+# run(input, "astar", 500)
